@@ -37,6 +37,8 @@ const createRide = async ({pickup, destination, vehicleType}, user) => {
         destination,
         fare
     });
+
+    await ride.save();
     return ride;
 }
 
