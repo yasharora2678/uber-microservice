@@ -28,11 +28,11 @@ const getFare = async (pickup, destination, vehicleType) => {
 
 }
 
-const createRide = async ({user, pickup, destination, vehicleType}) => {
+const createRide = async ({pickup, destination, vehicleType}, user) => {
     const fare = await getFare(pickup, destination, vehicleType);
 
     const ride = new rideModel({
-        user,
+        user: user._id,
         pickup,
         destination,
         fare

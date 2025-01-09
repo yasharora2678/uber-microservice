@@ -6,9 +6,6 @@ const { authUser } = require("../middlewares/auth.middleware");
 
 router.post(
   "/create",
-  body("user")
-    .isLength({ min: 24, max: 24 })
-    .withMessage("User ID is required"),
   body("pickup").isLength({ min: 3 }).withMessage("Pickup is required"),
   body("destination")
     .isLength({ min: 3 })
