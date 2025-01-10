@@ -32,7 +32,7 @@ router.post('/register', [
     body('vehicle.type')
         .notEmpty()
         .withMessage('Type is required')
-        .isIn(['car', 'motorcycle', 'bicycle'])
+        .isIn(['car', 'moto', 'bicycle'])
         .withMessage('Type must be either car, motorcycle, or bicycle')
 ], captainController.registerCaptain);
 

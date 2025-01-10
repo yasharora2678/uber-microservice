@@ -35,8 +35,9 @@ const getSuggestions = async (req,res) => {
         if(!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()});
         }
-        const response = await mapsService.getSuggestions(req.query.address);
-        return res.status(200).send(response);
+        const suggestions = await mapsService.getSuggestions(req.query.address);
+        
+        res.status(200).json(suggestions);
     } catch (error) {
         console.error(error);
         res.status(400).json({message: error.message});
