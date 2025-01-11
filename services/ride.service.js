@@ -60,7 +60,63 @@ const createRide = async (payload, user) => {
     return ride;
 }
 
+const confirmRide = async (payload, captain) => { 
+    const { rideId } = payload;
+    await rideModel.findByIdAndUpdate(rideId, {
+        status: 'accepted',
+        captain: captain._id
+    });
+    
+    const ride = await rideModel.findOne({_id: rideId}).populate('captain user').select('+otp');
+    if(!ride) throw new Error('Ride not found');
+    return ride;
+}
+
+const startRide = async (params) => { 
+    const { rideId, otp } = params;
+    const ride =  await rideModel.findOne({_id: rideId}).populate('captain user').select('+otp');
+    console.log(ride)
+    if(ride.otp != otp) {
+        throw new Error('Otp is invalid')
+    }
+
+    await rideModel.findByIdAndUpdate(rideId, {
+        status: 'ongoing',
+    });
+    return ride;
+}
+
+const endRide = async ({ rideId, captain }) => {
+    if (!rideId) {
+        throw new Error('Ride id is required');
+    }
+
+    const ride = await rideModel.findOne({
+        _id: rideId,
+        captain: captain._id
+    }).populate('user').populate('captain').select('+otp');
+
+    if (!ride) {
+        throw new Error('Ride not found');
+    }
+
+    if (ride.status !== 'ongoing') {
+        throw new Error('Ride not ongoing');
+    }
+
+    await rideModel.findOneAndUpdate({
+        _id: rideId
+    }, {
+        status: 'completed'
+    })
+
+    return ride;
+}
+
 module.exports = {
     createRide,
-    getFare
+    getFare,
+    confirmRide,
+    startRide,
+    endRide
 }

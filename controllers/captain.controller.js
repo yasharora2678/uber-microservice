@@ -31,7 +31,7 @@ const loginCaptain = async (req, res) => {
 
 const getCaptainProfile = async (req, res) => {
     try {
-        res.status(200).json(req.captain);
+        res.status(200).json({captain: req.captain});
     } catch (error) {
         res.status(400).json({message: error.message});
     }

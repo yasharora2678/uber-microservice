@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
     try {
-        res.status(200).json(req.user);
+        res.status(200).json({user: req.user});
     } catch (error) {
         res.status(400).json({message: error.message});
     }
